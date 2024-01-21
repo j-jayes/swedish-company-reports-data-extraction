@@ -1,0 +1,411 @@
+/*-- scss:defaults --*/
+
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Noto+Serif+JP:300, 300i&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Lato:400,400i,700&display=swap');
+@import url('https://fonts.googleapis.com/css?family=IBM+Plex+Mono&display=swap');
+
+$font-family-sans-serif:    Noto Serif JP !default;
+$font-family-monospace:     IBM Plex Mono !default;
+$font-family-base:          Lato !default;
+$font-family-headers:       Lato !default;
+
+$headings-margin-bottom:    1.5rem !default;
+
+
+$font-size-base: 1.1rem !default;
+$body-color: #404040 !default;
+$headings-color: #2b8cbe !default;
+$headings-font-weight: 300 !default;
+
+$font-weight-bold: 800;
+$font-weight-normal: 400;
+
+// Colors
+$jet: #131516;
+$accent: #107895;
+$accent2: #9a2515;
+$primary: #2b8cbe !default;
+$secondary:#DEEBF7 !default;
+
+
+$theme-colors: (
+  "white": hsl(0, 0%, 100%),
+  "royal-blue-50": hsl(219, 88%, 97%),
+  "royal-blue-100": hsl(221, 78%, 93%),
+  "royal-blue-200": hsl(218, 82%, 87%),
+  "royal-blue-300": hsl(218, 82%, 78%),
+  "royal-blue-400": hsl(219, 80%, 68%),
+  "royal-blue-500": hsl(223, 78%, 60%),
+  "royal-blue-600": hsl(227, 71%, 55%),
+  "royal-blue-700": hsl(231, 65%, 48%),
+  "royal-blue-800": hsl(231, 61%, 40%),
+  "royal-blue-900": hsl(230, 55%, 33%),
+  "royal-blue-950": hsl(232, 50%, 21%),
+  "success": hsl(152, 37%, 46%),
+  "warning": hsl(36, 54%, 51%),
+  "danger": hsl(4, 90%, 58%),
+  "gray-100": hsl(210, 17%, 98%),
+  "gray-200": hsl(210, 16%, 93%),
+  "gray-300": hsl(0, 0%, 87%),
+  "gray-400": hsl(210, 14%, 83%),
+  "gray-500": hsl(210, 11%, 71%),
+  "gray-600": hsl(210, 7%, 56%),
+  "gray-700": hsl(210, 9%, 31%),
+  "gray-800": hsl(210, 10%, 23%),
+  "gray-900": hsl(210, 11%, 15%),
+  "colorblind-blue":#0173b2,
+  "colorblind-orange":#de8f05,
+  "colorblind-green":#029e73,
+  "colorblind-red":#d55e00,
+  "colorblind-purple":#cc78bc,
+  "colorblind-light-orange":#ca9161,
+  "colorblind-pink":#fbafe4,
+  "colorblind-gray":#949494,
+  "colorblind-yellow":#ece133,
+  "colorblind-light-blue":#56b4e9,
+);
+
+$color-names: map-keys($theme-colors);
+
+$white: map-get($theme-colors, "white");
+$light: map-get($theme-colors, "royal-blue-100");
+$dark: map-get($theme-colors, "royal-blue-950");
+$primary: map-get($theme-colors, "royal-blue-400");
+$secondary: map-get($theme-colors, "royal-blue-600");
+$info: map-get($theme-colors, "info");
+$success: map-get($theme-colors, "success");
+$warning: map-get($theme-colors, "warning");
+$danger: map-get($theme-colors, "danger");
+$light-accent : map-get($theme-colors, "royal-blue-200");
+$medium-accent: map-get($theme-colors, "royal-blue-500");
+$dark-accent : map-get($theme-colors, "royal-blue-800");
+$default: map-get($theme-colors, "gray-500");
+
+$dark-background: $dark-accent;
+$light-background: $light;
+$white-background: $white;
+
+$link-color : $light !default;
+$code-color : black !default;
+$selection-color: $secondary !default;
+// Default values for callout colors
+$callout-color-note: $primary !default;
+$callout-color-tip: $success !default;
+$callout-color-important: $danger !default;
+$callout-color-warning: $warning !default;
+
+@each $color-name, $color-value in $theme-colors {
+  .text-#{$color-name} {
+    color: $color-value;
+  }
+}
+
+// Breakpoints
+$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+  xxl: 1400px
+);
+
+/*-- scss:rules --*/
+
+// General styles
+
+body {
+  font-family: $font-family-sans-serif;
+  color: $dark;
+}
+
+p {
+  font-family: inherit;
+  line-height: calc(150% + (0.0025vw * (100 - 30)));
+}
+
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: $font-family-headers;
+  font-weight: $font-weight-normal;
+  color: inherit;
+  border-bottom: none;
+}
+
+a {
+  color: $primary !important;
+  text-decoration: none;
+  padding-right: 0.1em;
+  padding-left: 0.1em;
+
+  &:hover {
+    font-weight: $font-weight-bold;
+    color: $primary !important;
+  }
+}
+
+.date {
+  color: $default;
+}
+
+.font-normal {
+  font-weight: $font-weight-normal;
+}
+
+.font-mono {
+  font-family: $font-family-monospace;
+}
+
+.text-uppercase {
+  text-transform: uppercase;
+}
+
+.text-lowercase {
+  text-transform: lowercase;
+}
+
+// Callouts
+
+// Define callout colors here (uncomment and customize as needed)
+// $callout-color-note: $primary !default;
+// $callout-color-tip: $success !default;
+// $callout-color-important: $danger !default;
+// $callout-color-warning: $warning !default;
+
+// Responsive iframe styles
+
+.container {
+  position: relative;
+  width: 100%;
+  padding-bottom: 5%;
+}
+
+.responsive-iframe {
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 500px;
+}
+
+// RevealJS specific styles
+
+.reveal {
+
+  & .inverted {
+    color: $light;
+    background-color: $dark-accent;
+  }
+
+  & .has-dark-background {
+    color: $white;
+    background-color: $dark-accent;
+
+    & h1,
+    & h2,
+    & h3,
+    & h4 {
+      color: $light;
+    }
+  }
+
+  & .title-box {
+    position: absolute;
+    right: 480px;
+    top: 200px;
+    height: 550px;
+    width: 1500px;
+    background-color: $light-accent;
+    padding: 20px;
+    padding-left: 50px;
+    box-shadow: -15px 15px 0px 0px $dark-accent;
+    border-radius: 5px;
+  }
+
+  & .title-subtitle {
+    font-size: 1.5rem;
+    font-weight: $font-weight-bold;
+    color: $medium-accent;
+  }
+
+  & .quarto-title-block {
+    text-align: left;
+
+    & .quarto-title-authors {
+      color: $dark;
+      display: flex;
+      justify-content: flex-end;
+      text-align: right;
+    }
+
+    .date {
+      display: flex;
+      justify-content: flex-end;
+      font-size: 1.5rem;
+      text-align: right;
+      padding-right: 0.5em;
+    }
+
+    & .title-social {
+      font-family: $font-family-monospace;
+      color: $light-accent;
+    }
+  }
+
+  & h1,
+  & h2,
+  & h3,
+  & h4,
+  & h5,
+  & h6 {
+    font-family: $font-family-headers;
+    font-weight: $font-weight-bold;
+    align-self: flex-end;
+
+    #sinno_h2 {
+      font-size: 2.5rem;
+    }
+
+    &.title {
+      background-color: $primary;
+      box-shadow: 5px 5px 0px $dark-accent;
+      padding: 1rem;
+      font-size: 6rem;
+      color: $white;
+      text-transform: uppercase;
+      text-align: left;
+      letter-spacing: 0.05em;
+    }
+  }
+
+  & blockquote {
+    border-left: none;
+    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="hsl(219, 49%, 91%)" class="bi bi-quote" viewBox="0 0 16 16"><path d="M12 12a1 1 0 0 0 1-1V8.558a1 1 0 0 0-1-1h-1.388c0-.351.021-.703.062-1.054.062-.372.166-.703.31-.992.145-.29.331-.517.559-.683.227-.186.516-.279.868-.279V3c-.579 0-1.085.124-1.52.372a3.322 3.322 0 0 0-1.085.992 4.92 4.92 0 0 0-.62 1.458A7.712 7.712 0 0 0 9 7.558V11a1 1 0 0 0 1 1h2Zm-6 0a1 1 0 0 0 1-1V8.558a1 1 0 0 0-1-1H4.612c0-.351.021-.703.062-1.054.062-.372.166-.703.31-.992.145-.29.331-.517.559-.683.227-.186.516-.279.868-.279V3c-.579 0-1.085.124-1.52.372a3.322 3.322 0 0 0-1.085.992 4.92 4.92 0 0 0-.62 1.458A7.712 7.712 0 0 0 3 7.558V11a1 1 0 0 0 1 1h2Z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: left top;
+    background-size: 6rem;
+    text-shadow: 0 0 2px white;
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
+  }
+
+  & .right {
+    text-align: right;
+  }
+
+  & .text-emphasis {
+    font-weight: $font-weight-bold;
+    color: $primary;
+  }
+
+  & .slides section .fragment.highlight-current-blue.current-fragment {
+    color: $primary;
+  }
+
+  & .slide-menu-button a {
+    color: $light;
+  }
+
+  & .progress span {
+    background-color: $light-accent;
+  }
+
+  & .slide-cite {
+    color: $default;
+    font-size: 1rem;
+    position: absolute;
+    display: block;
+    margin-top: 5px;
+    text-align: right;
+    bottom: 0;
+    right: 0;
+  }
+
+  & img {
+    border-radius: 10px;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    justify-content: center;
+  }
+
+  & table th,
+  & table td {
+    text-align: left;
+    padding: .2em .5em .2em .5em;
+    border-bottom: 1px solid;
+    border-color: $light;
+  }
+
+  table.tiny {
+    font-size: 1.125rem;
+  }
+
+  table.small {
+    font-size: 1.25rem;
+  }
+}
+
+// Extras
+
+.empty {
+  color: inherit;
+  -webkit-text-stroke: 2px;
+  text-stroke: 2px;
+  -webkit-text-fill-color: transparent;
+  text-fill-color: transparent;
+}
+
+// Beamer-style button link environment
+
+.button {
+  display: inline-block;
+  padding: 6px 12px;
+  margin-bottom: 0;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.42857143;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  cursor: pointer;
+  background-color: $accent;
+  border: 1px solid $accent;
+  color: #fff !important;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: all 0.2s ease-in-out;
+}
+
+.button:hover {
+  background-color: #0056b3;
+  border-color: #0056b3;
+}
+
+.button::before {
+  content: "▶";
+  margin-right: 5px;
+}
+
+// alerts etc.
+
+.alert {
+  color: $accent2;
+}
+
+.fg {
+  color: var(--col, $jet);
+}
+
+.bg {
+  background-color: var(--col, #fff);
+  padding: 0.1em;
+  border-radius: 5px;
+  display: inline-block;
+}

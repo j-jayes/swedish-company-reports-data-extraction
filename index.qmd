@@ -1,0 +1,160 @@
+---
+title: "Title"
+subtitle: "Subtitle"
+author: 
+  - "Jonathan Jayes  - Lund University"
+title-slide-attributes:
+  data-background-image: "assets/robot.png"
+  data-background-position: "bottom 10"
+  data-background-size: "90%"
+  data-background-opacity: "0.4"
+format: 
+  revealjs:
+    theme: [default, assets/template.scss]
+    code-overflow: wrap
+    width: 1600
+    height: 900
+    fig-align: center
+    default-image-extension: svg
+    footer: "[{{< fa house >}}](https://interludeone.com/content/research.html)"
+    slide-number: c
+    code-block-bg: true
+    code-block-border-left: "#31BAE9"
+    include-in-header: 
+        - text: <link rel = "shortcut icon" href = "assets/favicon.ico" />
+
+image: "assets/robot.png"
+favicon: "assets/favicon.ico"
+execute: 
+  eval: true
+  echo: false
+---
+
+# Motivation{#sec-motivation}
+
+::: {.columns}
+::: {.column}
+What do we as economic historians love?
+
+![Lovely long time series](assets/gdp-per-capita-maddison.png)
+
+:::
+::: {.column}
+What do we hate?
+
+![Lots of time spent typing things into excel](assets/wikihow.jpeg)
+
+:::
+:::
+
+## What is possible with off-the-shelf OCR tech?
+
+![A table that can be OCRd relatively easily](assets/ocr_good.png)
+
+- Computer written text
+- Clean lines separating rows and columns
+- Single heading per column
+
+## What does off-the-shelf OCR tech struggle with?
+
+![A table that is difficult to OCR](assets/ocr_hard.jpg)
+
+- Poor quality scans
+- Lacks clean lines separating rows
+- Multiple headings per column
+
+## Conventional solutions to theses problems
+
+![[ABBYY FineReader](https://bendingwater-blog.library.claremont.edu/2021/04/21/a-look-inside-the-data-ocr-process-and-challenging-tables/)](assets/orc_hard_solution.jpg)
+
+- Clicky, fiddly, GUI based software
+- Expensive
+- Not clear that time invested improves system
+
+## Custom machine learning solutions
+
+![[Reading the ransom: Methodological advancements in extracting the Swedish Wealth Tax of 1571]()](assets/reading_ransom.jpg)
+
+- Use machine learning to train a model to recognize specific tables
+- Fantastic for old documents which would be impossible to OCR otherwise
+- May not generalize well to other documents
+
+## Custom machine learning solutions
+
+![[Layout Parser: open-source deep-learning powered library for automatically processing document image data at scale](https://dell-research-harvard.github.io/resources/layout-parser)](assets/layout_parser.png)
+
+- Great contribution to the field!
+- Shallow learning curve
+- 'Open source' - many open GitHub issues
+- Good for when you have a specific type of document you want to extract data from that doesn't change much over time
+
+# Research question{#sec-researchquestion background-color="midnightblue"}
+
+How can we use multi-modal machine learning to extract tabular data from historical documents of varying vintages?
+
+## Example use case:
+
+Company reports in Sweden.
+
+I showcase the method using the annual reports of Electrolux, a Swedish company founded in 1919, now the world's second largest appliance maker by units sold.
+
+## Source of data
+
+![[Annual Reports for companies listed at the Stockholm Stock Exchange during the period 1912 to 1978](https://www.hhs.se/en/houseoffinance/data-center/historical-archives/annual-reports-archive/)](assets/source_material.png)
+
+## How do the reports change over time?
+
+```{r}
+library(tidyverse)
+theme_set(theme_light())
+
+df = readr::read_csv("data/companies/Electrolux/pages.csv")
+
+# rename column 1 year
+df = df %>% rename(year = ...1)
+
+df = df %>% 
+mutate(language = case_when
+(year < 1950 ~ "Swedish",
+TRUE ~ "English"))
+
+
+df %>% 
+ggplot(aes(x = year, y = pages)) +
+geom_line(group = 1, colour = "midnightblue") +
+geom_point(aes(colour = language)) +
+scale_colour_brewer(palette = "Dark2") +
+labs(x = "Year of report",
+y = "Number of pages in report",
+colour = "Report written in")
+```
+
+
+
+
+
+## Reports over time
+
+::: {layout-ncol=3}
+
+![1925](data/companies/Electrolux/1925/single_pages/Electrolux_1925_page_2.jpeg)
+
+![1950](data/companies/Electrolux/1950/single_pages/Electrolux_1950_page_5.jpeg)
+
+![1975](data/companies/Electrolux/1975/single_pages/Electrolux_1975_page_11.jpeg)
+
+:::
+
+
+## Reports over time: GRAPHIC DESIGN!
+
+::: {layout-ncol=3}
+
+![1957](data/companies/Electrolux/1957/single_pages/Electrolux_1957_page_1.jpeg)
+
+![1972](data/companies/Electrolux/1972/single_pages/Electrolux_1972_page_1.jpeg)
+
+![1984](data/companies/Electrolux/1984/single_pages/Electrolux_1984_page_1.jpeg)
+
+:::
+
