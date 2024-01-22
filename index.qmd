@@ -261,7 +261,7 @@ payload = {
 
 ## Why does this work well? What are the limitations?
 
-::: {.columns}
+:::: {.columns}
 ::: {.column}
 **Advantages**
 
@@ -290,9 +290,12 @@ payload = {
 - Not easily reproducible by others (though neither are research assistants)
 
 :::
-:::
+::::
 
-## Code available on my GitHub
+# Conclusion{#sec-conclusion background-color="midnightblue"}
+
+Code available on my GitHub
 
 I promise to answer any open issues!
 
+![[GitHub Repo](https://github.com/j-jayes/swedish-company-reports-data-extraction)](assets/qr-code.png)
