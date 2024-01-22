@@ -52,7 +52,7 @@ What do we hate?
 ![A table that can be OCRd relatively easily](assets/ocr_good.png)
 
 - Computer written text
-- Clean lines separating rows and columns
+- Clean lines separating rows and columnss
 - Single heading per column
 
 ## What does off-the-shelf OCR tech struggle with?
@@ -88,7 +88,7 @@ What do we hate?
 - 'Open source' - many open GitHub issues
 - You really need to know about deep learning and computer vision to use this well.
 
-# Research question{#sec-researchquestion background-color="midnightblue"}
+# Research question{#sec-researchquestion background-color="midnightblue" visibilty="uncounted"}
 
 How can we use a multi-modal machine learning model to extract tabular data from historical documents of varying vintages?
 
@@ -137,7 +137,7 @@ colour = "Report written in")
 
 ::: {layout-ncol=3}
 
-![1925](data/companies/Electrolux/1925/single_pages/Electrolux_1925_page_2.jpeg)
+![1925](assets/1925_crop.png)
 
 ![1950](data/companies/Electrolux/1950/single_pages/Electrolux_1950_page_5.jpeg)
 
@@ -166,7 +166,7 @@ Combination of vector database for document search and multi-modal machine learn
 
 ![How we get information out of tabular PDFs](assets/mermaid.png)
 
-## Semantic search
+## Semantic search explained
 
 ![Search process](assets/parent-document-retriever.png)
 
@@ -207,7 +207,11 @@ labs(x = "Year of report",
 :::
 :::
 
-## Pass the page to GPT-4 Vision with Schema
+## Search through chunks for P and L statement{background-color="#d95f02"}
+
+![](assets/Electrolux_1960_page_13.png){width=100%}
+
+## Pass the page to GPT-4 Vision with Schema{background-color="#e7298a"}
 
 ```{python}
 #| echo: true
@@ -253,7 +257,13 @@ payload = {
 
 ![Electrolux Net Profit and Taxes](assets/figures.png)
 
-## Why does this work well?
+
+
+## Why does this work well? What are the limitations?
+
+::: {.columns}
+::: {.column}
+**Advantages**
 
 **Skip step structuring with OCR**
 
@@ -264,3 +274,25 @@ payload = {
 **'Read' the document like a research assistant**
 
 - 'Understand' the context of the tables
+
+**Fast and cheap**
+
+- 2 mins processing time to get the result for 75 years of reports
+- After you've built the pipeline, switching to another company is easy
+
+:::
+::: {.column}
+**Limitations**
+
+- Requires clever schema design to get the data you want
+- Requires time to manually check outlier results
+- Works best with small tables
+- Not easily reproducible by others (though neither are research assistants)
+
+:::
+:::
+
+## Code available on my GitHub
+
+I promise to answer any open issues!
+

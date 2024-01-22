@@ -433,7 +433,7 @@ Jonathan Jayes - Lund University
 
 <img data-src="assets/ocr_good.png" class="r-stretch quarto-figure-center"><p class="caption">A table that can be OCRd relatively easily</p><ul>
 <li>Computer written text</li>
-<li>Clean lines separating rows and columns</li>
+<li>Clean lines separating rows and columnss</li>
 <li>Single heading per column</li>
 </ul>
 </section>
@@ -475,7 +475,7 @@ Jonathan Jayes - Lund University
 </ul>
 </section></section>
 <section>
-<section id="sec-researchquestion" class="title-slide slide level1 center" data-background-color="midnightblue">
+<section id="sec-researchquestion" class="title-slide slide level1 center" data-background-color="midnightblue" data-visibilty="uncounted">
 <h1>Research question</h1>
 <p>How can we use a multi-modal machine learning model to extract tabular data from historical documents of varying vintages?</p>
 </section>
@@ -501,7 +501,7 @@ Jonathan Jayes - Lund University
 <div class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: center;">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="data/companies/Electrolux/1925/single_pages/Electrolux_1925_page_2.jpeg"></p>
+<p><img data-src="assets/1925_crop.png"></p>
 <figcaption>1925</figcaption>
 </figure>
 </div>
@@ -565,8 +565,8 @@ Jonathan Jayes - Lund University
 <h2>Approach schematic</h2>
 
 <img data-src="assets/mermaid.png" class="r-stretch quarto-figure-center"><p class="caption">How we get information out of tabular PDFs</p></section>
-<section id="semantic-search" class="slide level2">
-<h2>Semantic search</h2>
+<section id="semantic-search-explained" class="slide level2">
+<h2>Semantic search explained</h2>
 
 <img data-src="assets/parent-document-retriever.png" class="r-stretch quarto-figure-center"><p class="caption">Search process</p></section>
 <section id="use-text-embeddings-to-represent-chunks-as-vectors" class="slide level2" data-background-color="#1b9e77">
@@ -588,7 +588,11 @@ Jonathan Jayes - Lund University
 </div>
 </div>
 <aside><ol class="aside-footnotes"><li id="fn1"><p><a href="https://huggingface.co/KB/bert-base-swedish-cased">KB Lab Swedish BERT Models</a></p></li></ol></aside></section>
-<section id="pass-the-page-to-gpt-4-vision-with-schema" class="slide level2">
+<section id="search-through-chunks-for-p-and-l-statement" class="slide level2" data-background-color="#d95f02">
+<h2>Search through chunks for P and L statement</h2>
+
+<img data-src="assets/Electrolux_1960_page_13.png" style="width:100.0%" class="r-stretch"></section>
+<section id="pass-the-page-to-gpt-4-vision-with-schema" class="slide level2" data-background-color="#e7298a">
 <h2>Pass the page to GPT-4 Vision with Schema</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a>schema <span class="op">=</span> [</span>
@@ -630,8 +634,11 @@ Jonathan Jayes - Lund University
 <h2>System output</h2>
 
 <img data-src="assets/figures.png" class="r-stretch quarto-figure-center"><p class="caption">Electrolux Net Profit and Taxes</p></section>
-<section id="why-does-this-work-well" class="slide level2">
-<h2>Why does this work well?</h2>
+<section id="why-does-this-work-well-what-are-the-limitations" class="slide level2">
+<h2>Why does this work well? What are the limitations?</h2>
+<div class="columns">
+<div class="column">
+<p><strong>Advantages</strong></p>
 <p><strong>Skip step structuring with OCR</strong></p>
 <ul>
 <li>This is a difficult task</li>
@@ -642,6 +649,21 @@ Jonathan Jayes - Lund University
 <ul>
 <li>‘Understand’ the context of the tables</li>
 </ul>
+<p><strong>Fast and cheap</strong></p>
+<ul>
+<li>2 mins processing time to get the result for 75 years of reports</li>
+<li>After you’ve built the pipeline, switching to another company is easy</li>
+</ul>
+</div><div class="column">
+<p><strong>Limitations</strong></p>
+<ul>
+<li>Requires clever schema design to get the data you want</li>
+<li>Requires time to manually check outlier results</li>
+<li>Works best with small tables</li>
+<li>Not easily reproducible by others (though neither are research assistants)</li>
+</ul>
+</div>
+</div>
 <div class="footer footer-default">
 <p><a href="https://interludeone.com/content/research.html"><i class="fa-solid fa-house" aria-label="house"></i></a></p>
 </div>
