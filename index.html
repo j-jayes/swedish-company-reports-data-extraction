@@ -7,11 +7,13 @@
 <link href="index_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="index_files/libs/quarto-html/light-border.css" rel="stylesheet">
 <link href="index_files/libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
-<link href="index_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+<link href="index_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="index_files/libs/quarto-contrib/fontawesome6-0.1.0/all.css" rel="stylesheet">
+<link href="index_files/libs/quarto-contrib/fontawesome6-0.1.0/latex-fontsize.css" rel="stylesheet"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.3.450">
 
   <meta name="author" content="Jonathan Jayes - Lund University">
-  <title>Title</title>
+  <title>Extracting schematic information from tabular PDF documents using a large language model pipeline</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -29,6 +31,71 @@
       margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
       vertical-align: middle;
     }
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
   <link rel="stylesheet" href="index_files/libs/revealjs/dist/theme/quarto.css">
   <link href="index_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
@@ -326,8 +393,8 @@
     <div class="slides">
 
 <section id="title-slide" data-background-image="assets/robot.png" data-background-opacity="0.4" data-background-position="bottom 10" data-background-size="90%" class="quarto-title-block center">
-  <h1 class="title">Title</h1>
-  <p class="subtitle">Subtitle</p>
+  <h1 class="title">Extracting schematic information from tabular PDF documents using a large language model pipeline</h1>
+  <p class="subtitle">23-01-2024</p>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
@@ -401,22 +468,24 @@ Jonathan Jayes - Lund University
 <h2>Custom machine learning solutions</h2>
 
 <img data-src="assets/layout_parser.png" class="r-stretch quarto-figure-center"><p class="caption"><a href="https://dell-research-harvard.github.io/resources/layout-parser">Layout Parser: open-source deep-learning powered library for automatically processing document image data at scale</a></p><ul>
-<li>Great contribution to the field!</li>
-<li>Shallow learning curve</li>
-<li>‘Open source’ - many open GitHub issues</li>
+<li>Use machine learning to train a model to recognize specific tables</li>
 <li>Good for when you have a specific type of document you want to extract data from that doesn’t change much over time</li>
+<li>‘Open source’ - many open GitHub issues</li>
+<li>You really need to know about deep learning and computer vision to use this well.</li>
 </ul>
 </section></section>
 <section>
 <section id="sec-researchquestion" class="title-slide slide level1 center" data-background-color="midnightblue">
 <h1>Research question</h1>
-<p>How can we use multi-modal machine learning to extract tabular data from historical documents of varying vintages?</p>
+<p>How can we use a multi-modal machine learning model to extract tabular data from historical documents of varying vintages?</p>
 </section>
 <section id="example-use-case" class="slide level2">
 <h2>Example use case:</h2>
 <p>Company reports in Sweden.</p>
-<p>I showcase the method using the annual reports of Electrolux, a Swedish company founded in 1919, now the world’s second largest appliance maker by units sold.</p>
-</section>
+<p>I showcase the method using the annual reports of <strong>Electrolux</strong>, a Swedish company founded in 1919, now the world’s second largest appliance maker by units sold.</p>
+<p><br></p>
+
+<img data-src="assets/vacuum.jpg" class="r-stretch quarto-figure-center"><p class="caption">1937 Vacuum Cleaner</p></section>
 <section id="source-of-data" class="slide level2">
 <h2>Source of data</h2>
 
@@ -486,10 +555,98 @@ Jonathan Jayes - Lund University
 </div>
 </div>
 </div>
+</section></section>
+<section>
+<section id="sec-approach" class="title-slide slide level1 center" data-background-color="midnightblue">
+<h1>Approach</h1>
+<p>Combination of vector database for document search and multi-modal machine learning for table extraction.</p>
+</section>
+<section id="approach-schematic" class="slide level2">
+<h2>Approach schematic</h2>
+
+<img data-src="assets/mermaid.png" class="r-stretch quarto-figure-center"><p class="caption">How we get information out of tabular PDFs</p></section>
+<section id="semantic-search" class="slide level2">
+<h2>Semantic search</h2>
+
+<img data-src="assets/parent-document-retriever.png" class="r-stretch quarto-figure-center"><p class="caption">Search process</p></section>
+<section id="use-text-embeddings-to-represent-chunks-as-vectors" class="slide level2" data-background-color="#1b9e77">
+<h2>Use text embeddings to represent chunks as vectors</h2>
+<p><br></p>
+<p>“Vinst- och förlusträkning” ~ [1, 0, 1, 0, 0, …] ~ “Profit and loss account”</p>
+<p><br></p>
+<p>Then we find the page of the document that contains the Profit and Loss account.</p>
+<p><br></p>
+<div class="columns">
+<div class="column">
+<div class="cell">
+<div class="cell-output-display">
+<p><img data-src="index_files/figure-revealjs/unnamed-chunk-2-1.png" width="960"></p>
+</div>
+</div>
+</div><div class="column">
+<p><em>The National Library of Sweden / KBLab released three pretrained language models based on BERT. The models are trained on approximately 15-20GB of text (200M sentences, 3000M tokens) from various sources (books, news, government publications, swedish wikipedia and internet forums) aiming to provide a representative BERT model for Swedish text.</em><sup>1</sup></p>
+</div>
+</div>
+<aside><ol class="aside-footnotes"><li id="fn1"><p><a href="https://huggingface.co/KB/bert-base-swedish-cased">KB Lab Swedish BERT Models</a></p></li></ol></aside></section>
+<section id="pass-the-page-to-gpt-4-vision-with-schema" class="slide level2">
+<h2>Pass the page to GPT-4 Vision with Schema</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a>schema <span class="op">=</span> [</span>
+<span id="cb1-2"><a href="#cb1-2"></a>        {</span>
+<span id="cb1-3"><a href="#cb1-3"></a>            <span class="st">"key"</span>: <span class="st">"year"</span>,</span>
+<span id="cb1-4"><a href="#cb1-4"></a>            <span class="st">"description"</span>: <span class="st">"The year for which the financial statement is being reported."</span></span>
+<span id="cb1-5"><a href="#cb1-5"></a>        },</span>
+<span id="cb1-6"><a href="#cb1-6"></a>        {</span>
+<span id="cb1-7"><a href="#cb1-7"></a>            <span class="st">"key"</span>: <span class="st">"taxes"</span>,</span>
+<span id="cb1-8"><a href="#cb1-8"></a>            <span class="st">"description"</span>: <span class="st">"Total taxes paid by the company, also called 'skatt' in Swedish"</span></span>
+<span id="cb1-9"><a href="#cb1-9"></a>        },</span>
+<span id="cb1-10"><a href="#cb1-10"></a>        {</span>
+<span id="cb1-11"><a href="#cb1-11"></a>            <span class="st">"key"</span>: <span class="st">"net_profit"</span>,</span>
+<span id="cb1-12"><a href="#cb1-12"></a>            <span class="st">"description"</span>: <span class="st">"Net profit earned by the company for the year, also called 'Nettovinst för året' in Swedish"</span></span>
+<span id="cb1-13"><a href="#cb1-13"></a>        }</span>
+<span id="cb1-14"><a href="#cb1-14"></a>]</span>
+<span id="cb1-15"><a href="#cb1-15"></a></span>
+<span id="cb1-16"><a href="#cb1-16"></a>payload <span class="op">=</span> {</span>
+<span id="cb1-17"><a href="#cb1-17"></a>    <span class="st">"model"</span>: <span class="st">"gpt-4-vision-preview"</span>,</span>
+<span id="cb1-18"><a href="#cb1-18"></a>    <span class="st">"messages"</span>: [</span>
+<span id="cb1-19"><a href="#cb1-19"></a>    {</span>
+<span id="cb1-20"><a href="#cb1-20"></a>        <span class="st">"role"</span>: <span class="st">"user"</span>,</span>
+<span id="cb1-21"><a href="#cb1-21"></a>        <span class="st">"content"</span>: [</span>
+<span id="cb1-22"><a href="#cb1-22"></a>        {<span class="st">"type"</span>: <span class="st">"text"</span>, <span class="st">"text"</span>: prompt},</span>
+<span id="cb1-23"><a href="#cb1-23"></a>        {</span>
+<span id="cb1-24"><a href="#cb1-24"></a>            <span class="st">"type"</span>: <span class="st">"image_url"</span>,</span>
+<span id="cb1-25"><a href="#cb1-25"></a>            <span class="st">"image_url"</span>: {</span>
+<span id="cb1-26"><a href="#cb1-26"></a>            <span class="st">"url"</span>: <span class="ss">f"data:image/jpeg;base64,</span><span class="sc">{</span>base64_image<span class="sc">}</span><span class="ss">"</span></span>
+<span id="cb1-27"><a href="#cb1-27"></a>            }</span>
+<span id="cb1-28"><a href="#cb1-28"></a>        }</span>
+<span id="cb1-29"><a href="#cb1-29"></a>        ]</span>
+<span id="cb1-30"><a href="#cb1-30"></a>    }</span>
+<span id="cb1-31"><a href="#cb1-31"></a>    ],</span>
+<span id="cb1-32"><a href="#cb1-32"></a>    <span class="st">"max_tokens"</span>: <span class="dv">1000</span></span>
+<span id="cb1-33"><a href="#cb1-33"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="system-output" class="slide level2">
+<h2>System output</h2>
+
+<img data-src="assets/figures.png" class="r-stretch quarto-figure-center"><p class="caption">Electrolux Net Profit and Taxes</p></section>
+<section id="why-does-this-work-well" class="slide level2">
+<h2>Why does this work well?</h2>
+<p><strong>Skip step structuring with OCR</strong></p>
+<ul>
+<li>This is a difficult task</li>
+<li>‘Small’ errors can lead to big problems</li>
+<li>E.G 1,00 vs 1.00 or leading zeros</li>
+</ul>
+<p><strong>‘Read’ the document like a research assistant</strong></p>
+<ul>
+<li>‘Understand’ the context of the tables</li>
+</ul>
 <div class="footer footer-default">
-<p><a href="https://interludeone.com/content/research.html"></a></p>
+<p><a href="https://interludeone.com/content/research.html"><i class="fa-solid fa-house" aria-label="house"></i></a></p>
 </div>
 </section></section>
+
     </div>
   </div>
 

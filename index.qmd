@@ -1,6 +1,6 @@
 ---
-title: "Title"
-subtitle: "Subtitle"
+title: "Extracting schematic information from tabular PDF documents using a large language model pipeline"
+subtitle: "23-01-2024"
 author: 
   - "Jonathan Jayes  - Lund University"
 title-slide-attributes:
@@ -10,7 +10,7 @@ title-slide-attributes:
   data-background-opacity: "0.4"
 format: 
   revealjs:
-    theme: [default, assets/template.scss]
+    # theme: [default, assets/template.scss]
     code-overflow: wrap
     width: 1600
     height: 900
@@ -83,20 +83,24 @@ What do we hate?
 
 ![[Layout Parser: open-source deep-learning powered library for automatically processing document image data at scale](https://dell-research-harvard.github.io/resources/layout-parser)](assets/layout_parser.png)
 
-- Great contribution to the field!
-- Shallow learning curve
-- 'Open source' - many open GitHub issues
+- Use machine learning to train a model to recognize specific tables
 - Good for when you have a specific type of document you want to extract data from that doesn't change much over time
+- 'Open source' - many open GitHub issues
+- You really need to know about deep learning and computer vision to use this well.
 
 # Research question{#sec-researchquestion background-color="midnightblue"}
 
-How can we use multi-modal machine learning to extract tabular data from historical documents of varying vintages?
+How can we use a multi-modal machine learning model to extract tabular data from historical documents of varying vintages?
 
 ## Example use case:
 
 Company reports in Sweden.
 
-I showcase the method using the annual reports of Electrolux, a Swedish company founded in 1919, now the world's second largest appliance maker by units sold.
+I showcase the method using the annual reports of **Electrolux**, a Swedish company founded in 1919, now the world's second largest appliance maker by units sold.
+
+<br>
+
+![1937 Vacuum Cleaner](assets/vacuum.jpg)
 
 ## Source of data
 
@@ -129,10 +133,6 @@ y = "Number of pages in report",
 colour = "Report written in")
 ```
 
-
-
-
-
 ## Reports over time
 
 ::: {layout-ncol=3}
@@ -158,3 +158,109 @@ colour = "Report written in")
 
 :::
 
+# Approach{#sec-approach background-color="midnightblue"}
+
+Combination of vector database for document search and multi-modal machine learning for table extraction.
+
+## Approach schematic
+
+![How we get information out of tabular PDFs](assets/mermaid.png)
+
+## Semantic search
+
+![Search process](assets/parent-document-retriever.png)
+
+## Use text embeddings to represent chunks as vectors{background-color="#1b9e77"}
+
+<br>
+
+"Vinst- och förlusträkning" ~ [1, 0, 1, 0, 0, ...] ~ "Profit and loss account"
+
+<br>
+
+Then we find the page of the document that contains the Profit and Loss account.
+
+<br>
+
+::: {.columns}
+::: {.column}
+
+```{r}
+library(tidyverse)
+df = readxl::read_excel("data/companies/Electrolux/extract_pages.xlsx")
+
+df %>% 
+ggplot(aes(x = year, y = p_and_l)) +
+geom_point(colour = "midnightblue") +
+labs(x = "Year of report",
+ y = "Page number of \nprofit and loss account") +
+ theme(    text = element_text(size = 20)
+)
+
+```
+
+:::
+::: {.column}
+
+*The National Library of Sweden / KBLab released three pretrained language models based on BERT. The models are trained on approximately 15-20GB of text (200M sentences, 3000M tokens) from various sources (books, news, government publications, swedish wikipedia and internet forums) aiming to provide a representative BERT model for Swedish text.*^[[KB Lab Swedish BERT Models](https://huggingface.co/KB/bert-base-swedish-cased)]
+
+:::
+:::
+
+## Pass the page to GPT-4 Vision with Schema
+
+```{python}
+#| echo: true
+#| eval: false
+
+schema = [
+        {
+            "key": "year",
+            "description": "The year for which the financial statement is being reported."
+        },
+        {
+            "key": "taxes",
+            "description": "Total taxes paid by the company, also called 'skatt' in Swedish"
+        },
+        {
+            "key": "net_profit",
+            "description": "Net profit earned by the company for the year, also called 'Nettovinst för året' in Swedish"
+        }
+]
+
+payload = {
+    "model": "gpt-4-vision-preview",
+    "messages": [
+    {
+        "role": "user",
+        "content": [
+        {"type": "text", "text": prompt},
+        {
+            "type": "image_url",
+            "image_url": {
+            "url": f"data:image/jpeg;base64,{base64_image}"
+            }
+        }
+        ]
+    }
+    ],
+    "max_tokens": 1000
+}
+
+```
+
+## System output
+
+![Electrolux Net Profit and Taxes](assets/figures.png)
+
+## Why does this work well?
+
+**Skip step structuring with OCR**
+
+- This is a difficult task
+- 'Small' errors can lead to big problems
+- E.G 1,00 vs 1.00 or leading zeros
+
+**'Read' the document like a research assistant**
+
+- 'Understand' the context of the tables

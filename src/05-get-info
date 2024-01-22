@@ -1,0 +1,120 @@
+---
+title: "Untitled"
+format: html
+---
+
+
+```{r}
+library(tidyverse)
+
+# list files in data/companies/Electrolux/extracted_data_2
+files = list.files("data/companies/Electrolux/extracted_data_2")
+
+files_df = as_tibble(files) %>% 
+mutate(path = paste0("data/companies/Electrolux/extracted_data_2/", value))
+
+
+
+# read in all files in a tibble from files_df as text files
+files_df = files_df %>%
+mutate(text = map(path, read_file))
+
+df = files_df %>% 
+unnest(text)
+
+df %>% 
+head(1) %>% 
+select(text) %>% 
+pull()
+
+df = df %>% 
+mutate(text = str_remove(text, ".*'role': 'assistant', 'content':")) %>% 
+mutate(year = str_extract(text, '\"year\": .*'),
+year = str_remove(year, "taxes.*"),
+year = str_remove(year, '"year":'),
+year = parse_number(year)) 
+
+df = df %>% 
+mutate(taxes = str_extract(text, '\"taxes\": .*'),
+taxes = str_remove(taxes, "net_profit.*"),
+taxes = str_remove(taxes, '"taxes":'),
+taxes = parse_number(taxes))  
+
+df = df %>%
+mutate(net_profit = str_extract(text, '\"net_profit\": .*'),
+net_profit = str_remove(net_profit, '"net_profit":'),
+net_profit = parse_number(net_profit)) 
+
+
+df %>% 
+ggplot(aes(x = year, y = net_profit)) +
+geom_point() +
+geom_line() +
+scale_y_log10()
+
+df %>% 
+filter(between(year, 1975, 1995)) 
+
+
+df %>% 
+filter(year < 1995,
+year != 1985) %>% 
+ggplot(aes(x = year, y = taxes)) +
+geom_point() +
+geom_line() 
+
+df %>% 
+filter(between(year, 1975, 1995)) 
+
+
+df = df %>% 
+mutate(net_profit = case_when(
+    between(year, 1959, 1971) ~ net_profit * 1000,
+    between(year, 1972, 1995) ~ net_profit * 1000000,
+    TRUE ~ net_profit
+),
+taxes = case_when(
+    between(year, 1959, 1971) ~ taxes * 1000,
+    between(year, 1972, 1995) ~ taxes * 1000000,
+    TRUE ~ taxes
+)
+) %>% 
+mutate(taxes = abs(taxes))
+
+```
+
+
+
+```{r}
+
+theme_set(theme_light())
+
+library(ggtext)
+library(showtext)
+font_add_google("IBM Plex Mono", "ibm")
+showtext_auto(enable = TRUE)
+
+df %>% 
+pivot_longer(cols = c(net_profit, taxes), names_to = "variable", values_to = "value_m") %>%
+mutate(variable = case_when(
+    variable == "net_profit" ~ "Net profit",
+    variable == "taxes" ~ "Taxes"
+)) %>% 
+filter(year < 1995,
+year != 1985) %>% 
+ggplot(aes(x = year, y = value_m, colour = variable)) +
+geom_point() +
+geom_line() +
+scale_y_log10(labels = scales::dollar_format(prefix = "SEK")) +
+scale_colour_brewer(palette = "Dark2") +
+labs(x = "Financial Year",
+y = "SEK (log scale)") +
+    theme(
+        legend.position = "right",
+        text = element_text(family = "ibm", size = 20)
+    )
+
+
+
+ggsave("assets/figures.png", width = 15, height = 10, units = "cm")
+```
