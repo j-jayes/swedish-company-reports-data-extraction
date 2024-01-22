@@ -1,21 +1,7 @@
 ---
 title: "Extracting schematic information from tabular PDF documents using a large language model pipeline"
 subtitle: "23-01-2024"
-author: 
-  - "Jonathan Jayes  - Lund University"
-title-slide-attributes:
-  data-background-image: "assets/robot.png"
-  data-background-position: "bottom 10"
-  data-background-size: "90%"
-  data-background-opacity: "0.4"
-
-execute: 
-  eval: true
-  echo: false
-image: "assets/robot.png"
-favicon: "assets/favicon.ico"
-
-format: 
+format:
   revealjs:
     code-overflow: wrap
     width: 1600
@@ -28,7 +14,19 @@ format:
     code-block-border-left: "#31BAE9"
     include-in-header: 
         - text: <link rel = "shortcut icon" href = "assets/favicon.ico" />
-
+image: "assets/robot.png"
+favicon: "assets/favicon.ico"
+author: 
+  - "Jonathan Jayes  - Lund University"
+title-slide-attributes:
+  data-background-image: "assets/robot.png"
+  data-background-position: "bottom 10"
+  data-background-size: "90%"
+  data-background-opacity: "0.4"
+execute: 
+  echo: false
+  eval: true
+  message: false
 ---
 
 # Motivation{#sec-motivation}
