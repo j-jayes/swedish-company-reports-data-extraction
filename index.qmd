@@ -8,6 +8,13 @@ title-slide-attributes:
   data-background-position: "bottom 10"
   data-background-size: "90%"
   data-background-opacity: "0.4"
+
+execute: 
+  eval: true
+  echo: false
+image: "assets/robot.png"
+favicon: "assets/favicon.ico"
+
 format: 
   revealjs:
     code-overflow: wrap
@@ -21,12 +28,6 @@ format:
     code-block-border-left: "#31BAE9"
     include-in-header: 
         - text: <link rel = "shortcut icon" href = "assets/favicon.ico" />
-image: "assets/robot.png"
-favicon: "assets/favicon.ico"
-execute: 
-  eval: true
-  echo: false
-
 
 ---
 
