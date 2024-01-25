@@ -132,9 +132,9 @@ colour = "Report written in")
 
 ![1925](assets/1925_crop.png)
 
-![1950](data/companies/Electrolux/1950/single_pages/Electrolux_1950_page_5.jpeg)
+![1950](assets/Electrolux_1950_page_5.jpeg)
 
-![1975](data/companies/Electrolux/1975/single_pages/Electrolux_1975_page_11.jpeg)
+![1975](assets/Electrolux_1975_page_11.jpeg)
 
 :::
 
@@ -143,11 +143,11 @@ colour = "Report written in")
 
 ::: {layout-ncol=3}
 
-![1957](data/companies/Electrolux/1957/single_pages/Electrolux_1957_page_1.jpeg)
+![1957](assets/Electrolux_1957_page_1.jpeg)
 
-![1972](data/companies/Electrolux/1972/single_pages/Electrolux_1972_page_1.jpeg)
+![1972](assets/Electrolux_1972_page_1.jpeg)
 
-![1984](data/companies/Electrolux/1984/single_pages/Electrolux_1984_page_1.jpeg)
+![1984](assets/Electrolux_1984_page_1.jpeg)
 
 :::
 
@@ -286,9 +286,3 @@ payload = {
 ::::
 
 # Conclusion{#sec-conclusion background-color="midnightblue"}
-
-Code available on my GitHub
-
-I promise to answer any open issues!
-
-![[GitHub Repo](https://github.com/j-jayes/swedish-company-reports-data-extraction)](assets/qr-code.png)
