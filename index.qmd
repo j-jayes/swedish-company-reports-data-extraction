@@ -9,14 +9,7 @@ title-slide-attributes:
   data-background-size: "90%"
   data-background-opacity: "0.4"
 format: 
-  revealjs:
-    code-overflow: wrap
-    width: 1600
-    height: 900
-    fig-align: center
-    default-image-extension: svg
-    footer: "[{{< fa house >}}](https://interludeone.com/content/research.html)"
-    slide-number: c
+  html:
     code-block-bg: true
     code-block-border-left: "#31BAE9"
     include-in-header: 
