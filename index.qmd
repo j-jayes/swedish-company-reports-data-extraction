@@ -1,6 +1,6 @@
 ---
 title: "Extracting schematic information from tabular PDF documents using a large language model pipeline"
-subtitle: "23-01-2024"
+subtitle: "23-01-2024 - Machine Learning in Economic History Workshop"
 format:
   revealjs:
     code-overflow: wrap
